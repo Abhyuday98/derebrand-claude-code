@@ -30,6 +30,19 @@ git clone https://github.com/Abhyuday98/derebrand-claude-code /tmp/dcc \
 
 Runs across every installed version folder in `~/.vscode` and `~/.vscode-server`. Idempotent — safe to run repeatedly. Keeps a `.bak` of every changed file.
 
+## Auto-apply after every extension update
+
+Run the bundled watcher setup once per machine/codespace:
+
+```bash
+bash "${CLAUDE_PLUGIN_ROOT:-$HOME/.claude/skills/derebrand-claude-code}/setup-watcher.sh"
+```
+
+It self-selects the mechanism: a **systemd path unit** on desktop Linux (event-driven,
+survives reboot), or a **shell-startup hook** in codespaces/containers with no systemd
+(re-applies on each new terminal). To survive **codespace rebuilds**, add that same line
+to your [dotfiles](https://docs.github.com/en/codespaces/setting-your-user-preferences/personalizing-github-codespaces-for-your-account#dotfiles) install script.
+
 ## Custom name
 
 ```bash

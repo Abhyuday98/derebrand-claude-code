@@ -16,3 +16,18 @@ bash "${CLAUDE_PLUGIN_ROOT:-$HOME/.claude/skills/derebrand-claude-code}/rebrand.
 - Only touches the extension chrome (package.json, logo SVGs, webview css/js strings + colors) — never the minified logic or the CLI binary. Semantic colors (error red, warning amber) are left alone.
 
 After it runs, tell the user to reload: Command Palette → **Developer: Reload Webviews** (or fully restart VSCode) — a plain "Reload Window" often keeps the cached webview CSS.
+
+## Auto-apply after every extension update
+
+If the user wants this to run automatically whenever the extension updates
+(e.g. "set up the watcher", "run it automatically", "on every update", "on my
+codespace"), run the bundled setup script — it self-selects the right mechanism
+(systemd path unit on desktop Linux; a shell-startup hook in codespaces/containers
+that have no systemd):
+
+```bash
+bash "${CLAUDE_PLUGIN_ROOT:-$HOME/.claude/skills/derebrand-claude-code}/setup-watcher.sh"
+```
+
+Idempotent. For it to survive **codespace rebuilds**, tell the user to add that
+same line to their [dotfiles](https://docs.github.com/en/codespaces/setting-your-user-preferences/personalizing-github-codespaces-for-your-account#dotfiles) install script.
