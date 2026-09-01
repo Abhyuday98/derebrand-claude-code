@@ -27,6 +27,8 @@ git clone https://github.com/Abhyuday98/derebrand-claude-code /tmp/dcc \
 - Brand oranges (send button, accents, icons) → neutral gray (`#808080`)
 - The red input focus ring (`--vscode-errorForeground`) → gray, scoped to the webview
 - A curated set of visible prose phrases ("focus or unfocus Claude", etc.)
+- The serif "Claude Code" wordmark art (`welcome-art-*.svg`) → a neutral text wordmark
+- The "Clawd" pixel-robot empty-state mascot (`clawd.svg`) → blanked
 
 Runs across every installed version folder in `~/.vscode` and `~/.vscode-server`. Idempotent — safe to run repeatedly. Keeps a `.bak` of every changed file.
 

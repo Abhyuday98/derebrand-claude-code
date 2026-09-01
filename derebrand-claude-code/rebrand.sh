@@ -29,6 +29,22 @@ for D in "${dirs[@]}"; do
     cp "$r" "$r.bak"
     printf '%s' "$GLYPH" > "$r"
   done
+  # Wordmark logo (welcome-art-*.svg): the serif "Claude Code" is vector letter
+  # paths, not text, so replace the whole asset with a neutral wordmark. Same
+  # viewBox keeps sizing. Marker makes it idempotent.
+  for wf in welcome-art-dark.svg welcome-art-light.svg; do
+    r="$D/resources/$wf"
+    [ -f "$r" ] || continue
+    grep -q 'derebrand-wordmark' "$r" 2>/dev/null && continue
+    cp "$r" "$r.bak"
+    printf '%s' "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 440 189\" fill=\"currentColor\"><!--derebrand-wordmark--><text x=\"220\" y=\"108\" text-anchor=\"middle\" font-family=\"Georgia,'Times New Roman',serif\" font-size=\"46\">$NAME</text></svg>" > "$r"
+  done
+  # Empty-state "Clawd" robot mascot -> blank (keep viewBox so layout is stable).
+  cr="$D/resources/clawd.svg"
+  if [ -f "$cr" ] && ! grep -q 'derebrand-robot' "$cr" 2>/dev/null; then
+    cp "$cr" "$cr.bak"
+    printf '%s' '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 47 38"><!--derebrand-robot--></svg>' > "$cr"
+  fi
   # Webview panel: kill the product name and brand color (safe substrings only).
   # "Claude Code" never appears in an identifier or the `claude` binary name, so
   # it can't break logic. Bare "Claude" is left alone (shared protocol keys).
