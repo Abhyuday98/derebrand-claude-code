@@ -62,6 +62,12 @@ for D in "${dirs[@]}"; do
         sed -i "s/#$h/#808080/gi" "$wf"
       done
     fi
+    # Inline React robot mascot (minified as j("svg",..), viewBox 47x38 / 32x26):
+    # blank its blocky SVG path so the empty-state icon disappears.
+    if grep -q 'd:"M5\.08191 10\.0769' "$wf" || grep -q 'd:"M3\.88775 7\.44482' "$wf"; then
+      [ -f "$wf.bak" ] || cp "$wf" "$wf.bak"
+      sed -i 's/d:"M5\.08191 10\.0769[^"]*"/d:""/g; s/d:"M3\.88775 7\.44482[^"]*"/d:""/g' "$wf"
+    fi
     # Curated visible prose (full phrases only -> never identifiers/IPC keys).
     if grep -qF "unfocus Claude" "$wf"; then
       sed -i "s/focus or unfocus Claude/focus or unfocus $NAME/g; s/Tell Claude what to do/Tell $NAME what to do/g; s/Claude is waiting/$NAME is waiting/g; s/watch Claude edit/watch $NAME edit/g; s/Ask Claude/Ask $NAME/g; s/Send to Claude/Send to $NAME/g" "$wf"
